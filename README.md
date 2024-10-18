@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Controle de Vagas - Aplicação em Next.js
 
-## Getting Started
+Este é um projeto simples de uma aplicação web construída com **Next.js** e **TypeScript** que permite ao usuário controlar todas as vagas de emprego para as quais se candidatou. A aplicação armazena informações como título da vaga, nome da empresa e link para a vaga. Os dados são salvos localmente utilizando **IndexedDB**, o que permite armazenar um número considerável de vagas no navegador.
 
-First, run the development server:
+## Funcionalidades
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Adicionar vagas com título, empresa e link.
+- Excluir vagas já cadastradas.
+- Visualizar todas as vagas em uma lista.
+- Links para as vagas abrem em uma nova aba.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tecnologias Utilizadas
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Next.js**: Framework React para construção de aplicações web.
+- **TypeScript**: Suporte a tipagem estática no JavaScript.
+- **Tailwind CSS**: Framework CSS para estilização rápida e responsiva.
+- **IndexedDB**: Banco de dados no navegador para armazenamento local dos dados.
+- **Vercel**: Plataforma de deploy para hospedar a aplicação (opcional).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Como Rodar o Projeto Localmente
 
-## Learn More
+Siga os passos abaixo para rodar o projeto em sua máquina local:
 
-To learn more about Next.js, take a look at the following resources:
+### Pré-requisitos
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Node.js](https://nodejs.org/en/) (v14 ou superior)
+- [npm](https://www.npmjs.com/) ou [yarn](https://yarnpkg.com/)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Instalação
 
-## Deploy on Vercel
+1. Clone este repositório:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```
+   git clone https://github.com/seu-usuario/nome-do-repositorio.git
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. Navegue até o diretório do projeto:
+
+   ```
+   cd nome-do-repositorio
+   ```
+
+3. Instale as dependências do projeto:
+   ```
+   npm install
+   # ou
+   yarn install
+   ```
+
+Executando o Projeto
+Para iniciar o projeto em ambiente de desenvolvimento, execute o seguinte comando:
+
+    ```
+    npm run dev
+    # ou
+    yarn dev
+    ```

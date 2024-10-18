@@ -1,101 +1,150 @@
-import Image from "next/image";
+"use client";
+import { useEffect, useState } from "react";
+import { getVagas, addVaga, deleteVaga } from "./db/indexedDB";
+import Link from "next/link";
+
+type Vaga = {
+  id: string;
+  titulo: string;
+  empresa: string;
+  link: string;
+};
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [titulo, setTitulo] = useState("");
+  const [empresa, setEmpresa] = useState("");
+  const [link, setLink] = useState("");
+  const [vagas, setVagas] = useState<Vaga[]>([]);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  const inputStyle =
+    "lg:w-96 w-full bg-gray-200 p-1 text-gray-950 placeholder-slate-950 focus:outline-none focus:ring focus:ring-slate-500 rounded-sm focus:placeholder-opacity-0";
+  const linkInput =
+    "w-full bg-gray-200 p-1 text-gray-950 placeholder-slate-950 focus:outline-none focus:ring focus:ring-slate-500 rounded-sm focus:placeholder-opacity-0";
+
+  // Carrega as vagas do IndexedDB ao carregar a página
+  useEffect(() => {
+    async function fetchVagas() {
+      const vagasData = await getVagas();
+      setVagas(vagasData as Vaga[]);
+    }
+    fetchVagas();
+  }, []);
+
+  // Função para salvar novas vagas no IndexedDB
+  const handleAddVaga = async () => {
+    if (titulo && empresa && link) {
+      const newVaga: Vaga = {
+        id: new Date().toISOString(),
+        titulo,
+        empresa,
+        link,
+      };
+
+      await addVaga(newVaga);
+
+      setTitulo("");
+      setEmpresa("");
+      setLink("");
+
+      // Atualiza a lista de vagas
+      const vagasAtualizadas = await getVagas();
+      setVagas(vagasAtualizadas as Vaga[]);
+    }
+  };
+
+  // Função para deletar uma vaga
+  const handleDeleteVaga = async (id: string) => {
+    await deleteVaga(id);
+    const vagasAtualizadas = await getVagas();
+    setVagas(vagasAtualizadas as Vaga[]);
+  };
+
+  return (
+    <main className="mt-28 mx-40 flex flex-col text-center items-center">
+      <div className="flex flex-col mb-4 p-6 gap-2 bg-slate-400 rounded-3xl text-left lg:w-[900px] w-80">
+        <div className="flex flex-col justify-between lg:flex-row gap-2 lg:gap-10">
+          <div>
+            <h2>Título</h2>
+            <input
+              className={inputStyle}
+              type="text"
+              placeholder="Título da Vaga"
+              value={titulo}
+              onChange={(e) => setTitulo(e.target.value)}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          </div>
+          <div>
+            <h2>Empresa</h2>
+            <input
+              className={inputStyle}
+              type="text"
+              placeholder="Empresa"
+              value={empresa}
+              onChange={(e) => setEmpresa(e.target.value)}
+            />
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+        <div>
+          <h2>Link</h2>
+          <input
+            className={linkInput}
+            type="text"
+            placeholder="Link da Vaga"
+            value={link}
+            onChange={(e) => setLink(e.target.value)}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        </div>
+        <div className="flex justify-center mt-2">
+          <button
+            className="rounded-lg p-1 bg-slate-800 text-slate-300"
+            onClick={handleAddVaga}
+          >
+            Adicionar Vaga
+          </button>
+        </div>
+      </div>
+      <div className="flex flex-col p-2 gap-2 bg-slate-400 rounded-3xl text-center lg:w-[900px] w-80">
+        <h1>Minhas Vagas</h1>
+        <ul className="flex flex-col items-center">
+          {vagas.map((vaga) => (
+            <li className="flex flex-row mb-3 text-left" key={vaga.id}>
+              <div className="bg-slate-50 rounded w-64">
+                <h3 className="mb-1 border-b-2 border-black p-1">
+                  {vaga.titulo} - {vaga.empresa}
+                </h3>
+                <Link href={vaga.link} target="_blank">
+                  <h3 className="text-blue-600 underline p-1">{vaga.link}</h3>
+                </Link>
+              </div>
+              <div className="flex justify-center items-center">
+                <button
+                  className="bg-red-600 px-2 py-1 rounded-xl ml-2"
+                  onClick={() => handleDeleteVaga(vaga.id)}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    className="lucide lucide-trash-2"
+                  >
+                    <path d="M3 6h18" />
+                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                    <line x1="10" x2="10" y1="11" y2="17" />
+                    <line x1="14" x2="14" y1="11" y2="17" />
+                  </svg>
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </main>
   );
 }
