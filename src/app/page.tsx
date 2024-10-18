@@ -109,11 +109,14 @@ export default function Home() {
           {vagas.map((vaga) => (
             <li className="flex flex-row mb-3 text-left" key={vaga.id}>
               <div className="bg-slate-50 rounded w-64">
-                <h3 className="mb-1 border-b-2 border-black p-1">
+                <h3 className="mb-1  p-1 break-words max-w-[240px]">
                   {vaga.titulo} - {vaga.empresa}
                 </h3>
+                <hr className="h-px my-1 bg-gray-200 border-0 dark:bg-black" />
                 <Link href={vaga.link} target="_blank">
-                  <h3 className="text-blue-600 underline p-1">{vaga.link}</h3>
+                  <h3 className="text-blue-600 underline p-1 break-words max-w-[240px]">
+                    {vaga.link}
+                  </h3>
                 </Link>
               </div>
               <div className="flex justify-center items-center">
