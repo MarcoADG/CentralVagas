@@ -107,21 +107,24 @@ export default function Home() {
         <h1>Minhas Vagas</h1>
         <ul className="flex flex-col items-center">
           {vagas.map((vaga) => (
-            <li className="flex flex-row mb-3 text-left" key={vaga.id}>
-              <div className="bg-slate-50 rounded w-64">
-                <h3 className="mb-1  p-1 break-words max-w-[240px]">
+            <li
+              className="flex flex-col lg:flex-row mb-3 text-left"
+              key={vaga.id}
+            >
+              <div className="bg-slate-50 rounded">
+                <h3 className="px-1 pt-2 break-words max-w-52 lg:min-w-[750px] lg:max-w-[750px]">
                   {vaga.titulo} - {vaga.empresa}
                 </h3>
                 <hr className="h-px my-1 bg-gray-200 border-0 dark:bg-black" />
                 <Link href={vaga.link} target="_blank">
-                  <h3 className="text-blue-600 underline p-1 break-words max-w-[240px]">
+                  <h3 className="text-blue-600 underline p-1 break-words max-w-52 lg:min-w-[750px] lg:max-w-[750px]">
                     {vaga.link}
                   </h3>
                 </Link>
               </div>
               <div className="flex justify-center items-center">
                 <button
-                  className="bg-red-600 px-2 py-1 rounded-xl ml-2"
+                  className="bg-red-600 px-2 py-1 rounded-xl mt-2 lg:ml-2 lg:mt-0"
                   onClick={() => handleDeleteVaga(vaga.id)}
                 >
                   <svg
